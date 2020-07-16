@@ -13,32 +13,31 @@ public class Login {
                 "1: BDO \n" +
                 "2: GPM \n" +
                 "3: Member");
-        try{
+        try {
             int choice = scanner.nextInt();
             if (choice == 1) {
                 auth.auth(choice);
 
-            }else if(choice == 2) {
-                String email = scanner.nextLine();
-                String password = scanner.nextLine();
-            }else if(choice == 3) {
-                String email = scanner.nextLine();
-                String password = scanner.nextLine();
-            }else {
+            } else if (choice == 2) {
+                auth.auth(choice);
+            } else if (choice == 3) {
+                auth.auth(choice);
+            } else {
                 System.out.println("Wrong input. Please enter again!");
                 login();
             }
-        }catch (SQLException e){
-            System.out.println("Error Occured"+e);
+        } catch (SQLException e) {
+            System.out.println("Error Occured" + e);
         }
 
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Dbconnection obj = new Dbconnection();
         Connection conn = obj.ConnectDb();
-        System.out.println("conn is:" + conn);
+//        conn.close();
+//        System.out.println("conn is:" + conn);
         Login log = new Login();
         log.login();
 

@@ -7,10 +7,8 @@ import java.util.Scanner;
 public class Auth {
     Scanner scanner = new Scanner(System.in);
     Dbconnection dbconnection = new Dbconnection();
-    Bdo bdo = new Bdo();
     Gpm gpm = new Gpm();
     Member member = new Member();
-
 
 
     public void auth(int choice) throws SQLException {
@@ -21,39 +19,35 @@ public class Auth {
         System.out.println("Enter Password: ");
         String password = scanner.nextLine();
         ResultSet res;
+        Bdo bdo = new Bdo();
 
-        if (choice == 1){
-            res = statement.executeQuery("select * from bdo where email= '"+email+"' and password ='"+password+"'");
-            if(res.next()){
+
+        if (choice == 1) {
+            res = statement.executeQuery("select * from bdo where email= '" + email + "' and password ='" + password + "'");
+            if (res.next()) {
                 bdo.bdoTasks();
-            }
-            else {
+            } else {
                 System.out.println("Wrong Credentials!");
                 auth(choice);
             }
 
-        }else if(choice == 2){
-            res = statement.executeQuery("select * from gpm where email= '"+email+"' and password ='"+password+"'");
-            if(res.next()){
+        } else if (choice == 2) {
+            res = statement.executeQuery("select * from gpm where email= '" + email + "' and password ='" + password + "'");
+            if (res.next()) {
                 gpm.gpmTasks();
-            }
-            else {
+            } else {
                 System.out.println("Wrong Credentials!");
                 auth(choice);
             }
-        }else {
-            res = statement.executeQuery("select * from member where email= '"+email+"' and password ='"+password+"'");
-            if(res.next()){
+        } else {
+            res = statement.executeQuery("select * from member where email= '" + email + "' and password ='" + password + "'");
+            if (res.next()) {
                 member.memberTasks();
-            }
-            else {
+            } else {
                 System.out.println("Wrong Credentials!");
                 auth(choice);
             }
         }
-
-
-
 
 
     }
