@@ -9,6 +9,7 @@ public class Auth {
     Dbconnection dbconnection = new Dbconnection();
     Gpm gpm = new Gpm();
     Member member = new Member();
+    int id;
 
 
     public void auth(int choice) throws SQLException {
@@ -25,16 +26,20 @@ public class Auth {
         if (choice == 1) {
             res = statement.executeQuery("select * from bdo where email= '" + email + "' and password ='" + password + "'");
             if (res.next()) {
+                conn.close();
                 bdo.bdoTasks();
             } else {
                 System.out.println("Wrong Credentials!");
                 auth(choice);
+
             }
 
         } else if (choice == 2) {
-            res = statement.executeQuery("select * from gpm where email= '" + email + "' and password ='" + password + "'");
+            res = statement.executeQuery("select id from gpm where email= '" + email + "' and password ='" + password + "'");
+            id = res.getInt("id");
             if (res.next()) {
-                gpm.gpmTasks();
+                conn.close();
+                gpm.gpmTasks(id);
             } else {
                 System.out.println("Wrong Credentials!");
                 auth(choice);

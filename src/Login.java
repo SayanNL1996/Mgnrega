@@ -17,7 +17,6 @@ public class Login {
             int choice = scanner.nextInt();
             if (choice == 1) {
                 auth.auth(choice);
-
             } else if (choice == 2) {
                 auth.auth(choice);
             } else if (choice == 3) {
@@ -29,18 +28,15 @@ public class Login {
         } catch (SQLException e) {
             System.out.println("Error Occured" + e);
         }
-
-
     }
 
+
     public static void main(String[] args) throws SQLException {
-        Dbconnection obj = new Dbconnection();
-        Connection conn = obj.ConnectDb();
-//        conn.close();
-//        System.out.println("conn is:" + conn);
+
+        Models models = new Models();
+        models.model();
         Login log = new Login();
         log.login();
-
 
     }
 }
