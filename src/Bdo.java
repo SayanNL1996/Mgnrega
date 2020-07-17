@@ -72,10 +72,8 @@ public class Bdo {
             System.out.println("Enter PinCode:");
             int pincode = scanner.nextInt();
             int bdo_id = 1;
-            System.out.println("all inputs taken");
             ResultSet res = statement.executeQuery("insert into gpm(name,email,password,area,pincode,bdo_id)" +
                     "values('" + name + "','" + email + "','" + password + "','" + area + "','" + pincode + "','" + bdo_id + "')");
-            System.out.println("crete");
             if (res.next()) {
                 System.out.println("Gpm Successfully crreated!");
             } else {

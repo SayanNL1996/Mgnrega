@@ -21,8 +21,7 @@ public class Dbconnection {
             Statement statement = conn.createStatement();
             statement.execute("create table if not exists " + TABLE_BDO +
                     "(id integer primary key autoincrement,email text not null,password text not null)");
-//            statement.execute("insert into bdo(id,email,password)" +
-//                    "values(1,'sayan@gmail.com','Sayan@1')");
+
             statement.execute("create table if not exists " + TABLE_GPM +
                     "(id integer primary key autoincrement,name text not null," +
                     "email text not null,password text not null,area text not null,pincode integer not null," +
@@ -43,6 +42,10 @@ public class Dbconnection {
                     "(id integer primary key autoincrement,member_id integer not null," +
                     "complaint text not null,gpm_id integer not null,status_gpm boolean default 'false'," +
                     "status_bdo boolean default 'false')");
+
+//            statement.execute("insert into bdo(id,email,password)" +
+//                    "values(1,'sayan@gmail.com','Sayan@1')");
+
 //            statement.execute("drop table "+TABLE_BDO);
 //            statement.execute("drop table "+TABLE_GPM);
 //            statement.execute("drop table "+TABLE_MEMBER);
