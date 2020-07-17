@@ -13,8 +13,8 @@ The parameters are entered in the console to enter the system.
 ### Authentication
 A call is made to the SQLITE database with the login credentials, the credentials are validated for existence and henceforth the login is made; else "Unauthorized User" message is displayed.
 
-### SQLITE_CONNECTION 
-This file is used to create a database connection to the SQLite database. The database file thus created is - "mgnrega_database.sqlite".
+### DBconnection 
+This file is used to create a database connection to the SQLite database. The database file thus created is - "mydb.db".
 
 ### LOGIN
 This file is used to authenticate the users logging in the system. This is the  main file to be run so that the system can be accessed. 
