@@ -35,7 +35,7 @@ public class Models {
                     "start_date date not null,end_date date not null,is_alloted boolean default 'false')");
             statement.execute("create table if not exists " + TABLE_PROJECT_MEMBER +
                     "(id integer primary key autoincrement,p_id integer not null,member_id integer not null," +
-                    "gpm_id integer not null,approved_date date,wage_approved boolean default 'false'," +
+                    "gpm_id integer not null,approved_date Timestamp,wage_approved boolean default 'false'," +
                     "status boolean default 'false')");
             statement.execute("create table if not exists " + TABLE_COMPLAINTS +
                     "(id integer primary key autoincrement,member_id integer not null," +

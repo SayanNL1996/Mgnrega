@@ -8,7 +8,7 @@ public class Login {
 
 
     public void login() {
-        System.out.println("Welcome To MGNREGA....");
+        System.out.println("******************* Welcome To MGNREGA *******************");
         System.out.println("Enter Choice: \n" +
                 "1: BDO \n" +
                 "2: GPM \n" +

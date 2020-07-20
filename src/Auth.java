@@ -9,7 +9,7 @@ public class Auth {
     Dbconnection dbconnection = new Dbconnection();
     Gpm gpm = new Gpm();
     Member member = new Member();
-    int id;
+    int id, gpmId;
 
 
     public void auth(int choice) throws SQLException {
@@ -45,9 +45,12 @@ public class Auth {
                 auth(choice);
             }
         } else {
-            res = statement.executeQuery("select * from member where email= '" + email + "' and password ='" + password + "'");
+            res = statement.executeQuery("select id,gpm_id from member where email= '" + email + "' and password ='" + password + "'");
+            id = res.getInt("id");
+            gpmId = res.getInt("gpm_id");
             if (res.next()) {
-                member.memberTasks();
+                conn.close();
+                member.memberTasks(id, gpmId);
             } else {
                 System.out.println("Wrong Credentials!");
                 auth(choice);
