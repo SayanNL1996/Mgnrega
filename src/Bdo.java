@@ -18,16 +18,24 @@ public class Bdo {
                 "1: GPM Management \n" +
                 "2: Project Management \n" +
                 "3: Request Management \n" +
-                "4: show Gpm and Member Details \n");
+                "4: Show Gpm and Member Details \n" +
+                "5: Logout \n");
         System.out.println("Enter Choice: ");
         int choice = scanner.nextInt();
         if (choice == 1) {
             gpmManagement();
+
         } else if (choice == 2) {
             projManagement();
 
         } else if (choice == 3) {
             requestManagement();
+
+        } else if (choice == 4) {
+            showAllGpmMemberDetails();
+
+        } else if (choice == 5) {
+            logout();
 
         } else {
             System.out.println("Wrong Choice. Please Enter again!");
@@ -41,7 +49,8 @@ public class Bdo {
                 "1: Create GPM. \n" +
                 "2: Update GPM. \n" +
                 "3: Delete GPM. \n" +
-                "4: Show all GPM.\n");
+                "4: Show all GPM.\n" +
+                "5: Go Back. \n");
         System.out.println("Enter task number: ");
         int taskId = scanner.nextInt();
         if (taskId == 1) {
@@ -54,6 +63,9 @@ public class Bdo {
 
         } else if (taskId == 4) {
             showAllGpm();
+
+        } else if (taskId == 5) {
+            bdoTasks();
 
         } else {
             System.out.println("Wrong Choice. Please Enter again!");
@@ -134,7 +146,8 @@ public class Bdo {
                 "1: Create Project. \n" +
                 "2: Update Project. \n" +
                 "3: Delete Project. \n" +
-                "4: Show All Projects. \n");
+                "4: Show All Projects. \n" +
+                "5: Go Back. \n");
         System.out.println("Enter task number: ");
         int taskId = scanner.nextInt();
         if (taskId == 1) {
@@ -147,6 +160,10 @@ public class Bdo {
 
         } else if (taskId == 4) {
             showAllProject();
+
+        } else if (taskId == 5) {
+            bdoTasks();
+
         } else {
             System.out.println("Wrong Choice. Please Enter again!");
             projManagement();
@@ -233,20 +250,27 @@ public class Bdo {
         }
     }
 
+    // REQUEST MANAGEMENT
     public void requestManagement() throws SQLException {
         System.out.println("\nSelect the task!\n" +
                 "1: Show Pending Project Requests \n" +
                 "2: Show Pending Wage Requests \n" +
-                "3: Show Pending Complaints \n");
+                "3: Show Pending Complaints \n" +
+                "4: Go Back. \n");
         System.out.println("Enter Choice: ");
         int choice = scanner.nextInt();
         if (choice == 1) {
             projectRequests();
 
         } else if (choice == 2) {
+            wageRequest();
 
         } else if (choice == 3) {
             handleComplaints();
+
+        } else if (choice == 4) {
+            bdoTasks();
+
         } else {
             System.out.println("Wrong Choice. Please Enter again!");
             requestManagement();
@@ -314,14 +338,85 @@ public class Bdo {
             System.out.println("Enter Project Id to Approve: ");
             int pid = scanner.nextInt();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            System.out.println("timest"+timestamp);
-            statement.execute("update project_member set status= 'approved' and approved_date = '"+timestamp+"' where p_id='" + pid + "'");
+            System.out.println("timest" + timestamp);
+            statement.execute("update project_member set status= 'approved' and approved_date = '" + timestamp + "' where p_id='" + pid + "'");
             System.out.println("Approved Successfully!");
         } catch (SQLException e) {
             System.out.println("Error is:" + e.getMessage());
         } finally {
             requestManagement();
         }
+    }
+
+    public void wageRequest() throws SQLException {
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet res = statement.executeQuery("select m.id,m.name,m.email,m.no_of_days_worked,m.wage_amount from member m where wage_approved='false'");
+            while (res.next()) {
+                System.out.println("1.Member Id:" + res.getInt(1));
+                System.out.println("2.Name:" + res.getInt(2));
+                System.out.println("3.Email:" + res.getString(3));
+                System.out.println("4.No of Days Worked:" + res.getBoolean(4));
+                System.out.println("5.Wage Amount:" + res.getBoolean(5));
+                System.out.println("---------------------------------");
+            }
+            statement.close();
+            System.out.println("Enter Member Id: ");
+            int mid = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Enter 'A' to approve or 'R' to reject:");
+            String req = scanner.nextLine();
+            if (req.equalsIgnoreCase("A")) {
+                statement.execute("update member set wage_approved = 'approved' where id='" + mid + "'");
+                System.out.println("Approved Successfuly!");
+                statement.close();
+            } else if (req.equalsIgnoreCase("R")) {
+                statement.execute("update member set wage_approved = 'rejected' where id = '" + mid + "'");
+                System.out.println("Rejected Successfully! ");
+                statement.close();
+            } else {
+                System.out.println("Wrong Choice. Please Enter valid choice:");
+                requestManagement();
+            }
+
+
+        } catch (SQLException e) {
+            System.out.println("Error is:" + e.getMessage());
+        } finally {
+            requestManagement();
+        }
+    }
+
+    public void showAllGpmMemberDetails() throws SQLException {
+        try {
+            Statement statement = conn.createStatement();
+            System.out.println("Enter Gpm Id: ");
+            int gid = scanner.nextInt();
+            ResultSet res = statement.executeQuery("select g.id,g.name,g.area,g.pincode,m.id,m.name,m.age," +
+                    "m.no_of_days_worked from gpm g join member m on g.id = m.gpm_id where g.id = '" + gid + "'");
+            while (res.next()) {
+                System.out.println("1.Gpm Id: " + res.getInt(1));
+                System.out.println("2.Gpm Name: " + res.getString(2));
+                System.out.println("3.Area: " + res.getString(3));
+                System.out.println("4.Pincode: " + res.getInt(4));
+                System.out.println("5.Member Id: " + res.getInt(5));
+                System.out.println("6.Member Name: " + res.getString(6));
+                System.out.println("7.Member Age: " + res.getInt(7));
+                System.out.println("8.Days Worked: " + res.getInt(8));
+                System.out.println("--------------------------------");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error is:" + e.getMessage());
+        } finally {
+            bdoTasks();
+        }
+    }
+
+    public void logout() throws SQLException {
+        conn.close();
+        Login l = new Login();
+        l.login();
     }
 
 }

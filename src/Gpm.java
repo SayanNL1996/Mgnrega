@@ -19,12 +19,14 @@ public class Gpm {
                 "2: Assign Project \n" +
                 "3: Show All Complaint Requests \n" +
                 "4: Approve Complaint Requests \n" +
-                "5: Show All Members \n" +
-                "6: Show Ongoing Projects \n");
+                "5: Calculate Wage \n" +
+                "6: Issue Job Card \n " +
+                "7: Logout \n");
         System.out.println("Enter Choice: ");
         int choice = scanner.nextInt();
         if (choice == 1) {
             createMember();
+
         } else if (choice == 2) {
             assignProject();
 
@@ -35,7 +37,13 @@ public class Gpm {
             handleRequests();
 
         } else if (choice == 5) {
-            showAllMembers();
+            calculateWage();
+
+        } else if (choice == 6) {
+            issueJobCard();
+
+        } else if (choice == 7) {
+            logout();
 
         } else {
             System.out.println("Wrong Choice. Please Enter again!");
@@ -89,14 +97,11 @@ public class Gpm {
                 System.out.println("5.Pincode: " + res.getInt(5));
                 System.out.println("6.Status: " + res.getString(6));
                 System.out.println("--------------------------------");
-                System.out.println("\n");
             }
 
 
         } catch (SQLException e) {
             System.out.println("Error is:" + e.getMessage());
-        } finally {
-            gpmTasks(id);
         }
 
     }
@@ -238,6 +243,64 @@ public class Gpm {
         } catch (SQLException e) {
             System.out.println("Error is:" + e.getMessage());
         }
+    }
+
+    public void calculateWage() throws SQLException {
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet res = statement.executeQuery("select member.id,member.email from member where wage_amount is null and gpm_id='" + id + "'");
+            while (res.next()) {
+                System.out.println("1.Member Id:" + res.getInt(1));
+                System.out.println("3.Email:" + res.getString(2));
+                System.out.println("----------------------------");
+            }
+            statement.close();
+            System.out.println("Enter Member Id: ");
+            int mid = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Enter number of days worked: ");
+            int daysWorked = scanner.nextInt();
+            scanner.nextLine();
+            float calWage = daysWorked * 100;
+            statement.execute("update member set no_of_days_worked='" + daysWorked + "',wage_amount='" + calWage + "' where id='" + mid + "'");
+            System.out.println("Updated Successfully");
+
+        } catch (SQLException e) {
+            System.out.println("Error is:" + e.getMessage());
+        } finally {
+            gpmTasks(id);
+        }
+
+    }
+
+    public void issueJobCard() throws SQLException {
+        try {
+            Statement statement = conn.createStatement();
+            showAllMembers();
+            System.out.println("Enter Member Id:");
+            int mid = scanner.nextInt();
+            ResultSet res = statement.executeQuery("select m.id,m.name,m.area,m.pincode,m.age from member m where id='" + mid + "'");
+            while (res.next()) {
+                System.out.println("1.Member Id: " + res.getInt(1));
+                System.out.println("2.Name: " + res.getString(2));
+                System.out.println("3.Area: " + res.getString(3));
+                System.out.println("4.Pincode: " + res.getInt(4));
+                System.out.println("5.Age: " + res.getInt(5));
+                System.out.println("--------------------------------");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error is:" + e.getMessage());
+        } finally {
+            gpmTasks(id);
+        }
+    }
+
+    public void logout() throws SQLException {
+        conn.close();
+        Login l = new Login();
+        l.login();
+
     }
 
 
