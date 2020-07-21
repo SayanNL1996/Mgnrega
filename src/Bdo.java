@@ -130,7 +130,6 @@ public class Bdo {
                 System.out.println("4.Area: " + res.getString(4));
                 System.out.println("5.Pincode: " + res.getInt(5));
                 System.out.println("--------------------------------");
-                System.out.println("\n");
             }
 //            statement.close();
         } catch (SQLException e) {
@@ -187,9 +186,9 @@ public class Bdo {
             System.out.println("Enter estimated cost:");
             int cost = scanner.nextInt();
             scanner.nextLine();
-            System.out.println("Enter start date in MM/DD/YYYY:");
+            System.out.println("Enter start date in DD/MM/YYYY:");
             String sdate = scanner.nextLine();
-            System.out.println("Enter end date in MM/DD/YYYY:");
+            System.out.println("Enter end date in DD/MM/YYYY:");
             String edate = scanner.nextLine();
 
             Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sdate);
@@ -240,7 +239,6 @@ public class Bdo {
                 System.out.println("8.EndDate: " + res.getString(8));
                 System.out.println("9.Alloted: " + res.getBoolean(9));
                 System.out.println("--------------------------------");
-                System.out.println("\n");
             }
 //            statement.close();
         } catch (SQLException e) {
@@ -337,9 +335,7 @@ public class Bdo {
             statement.close();
             System.out.println("Enter Project Id to Approve: ");
             int pid = scanner.nextInt();
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            System.out.println("timest" + timestamp);
-            statement.execute("update project_member set status= 'approved' and approved_date = '" + timestamp + "' where p_id='" + pid + "'");
+            statement.execute("update project_member set status= 'approved' where p_id='" + pid + "'");
             System.out.println("Approved Successfully!");
         } catch (SQLException e) {
             System.out.println("Error is:" + e.getMessage());
@@ -356,8 +352,8 @@ public class Bdo {
                 System.out.println("1.Member Id:" + res.getInt(1));
                 System.out.println("2.Name:" + res.getInt(2));
                 System.out.println("3.Email:" + res.getString(3));
-                System.out.println("4.No of Days Worked:" + res.getBoolean(4));
-                System.out.println("5.Wage Amount:" + res.getBoolean(5));
+                System.out.println("4.No of Days Worked:" + res.getInt(4));
+                System.out.println("5.Wage Amount:" + res.getFloat(5));
                 System.out.println("---------------------------------");
             }
             statement.close();

@@ -20,7 +20,7 @@ public class Gpm {
                 "3: Show All Complaint Requests \n" +
                 "4: Approve Complaint Requests \n" +
                 "5: Calculate Wage \n" +
-                "6: Issue Job Card \n " +
+                "6: Issue Job Card \n" +
                 "7: Logout \n");
         System.out.println("Enter Choice: ");
         int choice = scanner.nextInt();
@@ -206,16 +206,22 @@ public class Gpm {
             int pid = scanner.nextInt();
             scanner.nextLine();
             showUnassignedMembers();
-            System.out.println("Enter Member Id: ");
-            int mid = scanner.nextInt();
-            statement.execute("insert into project_member(p_id,member_id,gpm_id)" +
-                    "values('" + pid + "','" + mid + "','" + id + "')");
-            statement.close();
-            System.out.println("Assigned Successfully");
-            statement.execute("update member set status='assigned' where id='" + mid + "'");
-            statement.close();
-            statement.execute("update project set is_alloted='true' where id='" + pid + "'");
-            statement.close();
+            System.out.println("Enter number of members to add: ");
+            int tmid = scanner.nextInt();
+            scanner.nextLine();
+            for (var i = 0; i < tmid; i++) {
+                System.out.println("Enter Member Id: ");
+                int mid = scanner.nextInt();
+                statement.execute("insert into project_member(p_id,member_id,gpm_id)" +
+                        "values('" + pid + "','" + mid + "','" + id + "')");
+                statement.close();
+                System.out.println("Assigned Successfully");
+                statement.execute("update member set status='assigned' where id='" + mid + "'");
+                statement.close();
+                statement.execute("update project set is_alloted='true' where id='" + pid + "'");
+                statement.close();
+            }
+
         } catch (SQLException e) {
             System.out.println("Error is: " + e.getMessage());
         } finally {
@@ -251,7 +257,7 @@ public class Gpm {
             ResultSet res = statement.executeQuery("select member.id,member.email from member where wage_amount is null and gpm_id='" + id + "'");
             while (res.next()) {
                 System.out.println("1.Member Id:" + res.getInt(1));
-                System.out.println("3.Email:" + res.getString(2));
+                System.out.println("2.Email:" + res.getString(2));
                 System.out.println("----------------------------");
             }
             statement.close();

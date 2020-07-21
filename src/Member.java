@@ -11,7 +11,7 @@ public class Member {
     Connection conn = dbconnection.ConnectDb();
     int id, gpmId;
 
-    public void memberTasks(int id, int gpmId) {
+    public void memberTasks(int id, int gpmId) throws SQLException {
         System.out.println("*************** Welcome to Member Portal ***************");
         this.id = id;
         this.gpmId = gpmId;
@@ -31,15 +31,16 @@ public class Member {
         } else if (choice == 3) {
             showComplaints();
 
-        } else if(choice == 4){
+        } else if (choice == 4) {
+            logout();
 
-        }else {
+        } else {
             System.out.println("Wrong Choice. Please Enter again!");
             memberTasks(id, gpmId);
         }
     }
 
-    public void fileComplaint() {
+    public void fileComplaint() throws SQLException {
         try {
             Statement statement = conn.createStatement();
             scanner.nextLine();
@@ -57,7 +58,7 @@ public class Member {
         }
     }
 
-    public void showComplaints() {
+    public void showComplaints() throws SQLException {
         try {
             Statement statement = conn.createStatement();
             ResultSet res = statement.executeQuery("select * from complaints where member_id='" + id + "'");
@@ -77,7 +78,7 @@ public class Member {
         }
     }
 
-    public void viewDetails() {
+    public void viewDetails() throws SQLException {
         try {
             Statement statement = conn.createStatement();
             ResultSet res = statement.executeQuery("select * from member where id = '" + id + "'");
@@ -100,5 +101,11 @@ public class Member {
         } finally {
             memberTasks(id, gpmId);
         }
+    }
+
+    public void logout() throws SQLException {
+        conn.close();
+        Login l = new Login();
+        l.login();
     }
 }
