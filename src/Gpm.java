@@ -9,6 +9,7 @@ public class Gpm {
     Scanner scanner = new Scanner(System.in);
     Dbconnection dbconnection = new Dbconnection();
     Connection conn = dbconnection.ConnectDb();
+    Validate v = new Validate();
     int id;
 
     public void gpmTasks(int id) throws SQLException {
@@ -56,20 +57,13 @@ public class Gpm {
         try {
             Statement statement = conn.createStatement();
             scanner.nextLine();
-            System.out.println("Enter name:");
-            String name = scanner.nextLine();
-            System.out.println("Enter email:");
-            String email = scanner.nextLine();
-            System.out.println("Enter password:");
-            String password = scanner.nextLine();
+            String name = v.validateString();
+            String email = v.validateEmail();
+            String password = v.validatePAssword();
             System.out.println("Enter area:");
             String area = scanner.nextLine();
-            System.out.println("Enter pincode:");
-            int pincode = scanner.nextInt();
-            scanner.nextLine();
-            System.out.println("Enter age:");
-            int age = scanner.nextInt();
-            scanner.nextLine();
+            int pincode = Integer.parseInt(v.validatePin());
+            int age = v.validateAge();
             statement.execute("insert into member(name,email,password,area,pincode,age,gpm_id)" +
                     "values('" + name + "','" + email + "','" + password + "','" + area + "','" + pincode + "','" + age + "','" + id + "')");
             System.out.println("Member Successfully Created!");

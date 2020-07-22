@@ -10,6 +10,7 @@ public class Bdo {
     Scanner scanner = new Scanner(System.in);
     Dbconnection dbconnection = new Dbconnection();
     Connection conn = dbconnection.ConnectDb();
+    Validate v = new Validate();
 
 
     public void bdoTasks() throws SQLException {
@@ -77,17 +78,13 @@ public class Bdo {
     public void createGpm() throws SQLException {
         try {
             Statement statement = conn.createStatement();
+            String name = v.validateString();
+            String email = v.validateEmail();
+            String password = v.validatePAssword();
             scanner.nextLine();
-            System.out.println("Enter name:");
-            String name = scanner.nextLine();
-            System.out.println("Enter email id:");
-            String email = scanner.nextLine();
-            System.out.println("Enter Password:");
-            String password = scanner.nextLine();
             System.out.println("Enter Area:");
             String area = scanner.nextLine();
-            System.out.println("Enter PinCode:");
-            int pincode = scanner.nextInt();
+            int pincode = Integer.parseInt(v.validatePin());
             int bdo_id = 1;
 
             statement.execute("insert into gpm(name,email,password,area,pincode,bdo_id)" +
@@ -177,19 +174,15 @@ public class Bdo {
             String name = scanner.nextLine();
             System.out.println("Enter area:");
             String area = scanner.nextLine();
-            System.out.println("Enter pincode:");
-            int pincode = scanner.nextInt();
-            scanner.nextLine();
+            int pincode = Integer.parseInt(v.validatePin());
             System.out.println("Enter total members:");
             int totmembers = scanner.nextInt();
             scanner.nextLine();
             System.out.println("Enter estimated cost:");
             int cost = scanner.nextInt();
             scanner.nextLine();
-            System.out.println("Enter start date in DD/MM/YYYY:");
-            String sdate = scanner.nextLine();
-            System.out.println("Enter end date in DD/MM/YYYY:");
-            String edate = scanner.nextLine();
+            String sdate = v.validateDate();
+            String edate = v.validateDate();
 
             Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sdate);
             Date date2 = new SimpleDateFormat("dd/MM/yyyy").parse(edate);
